@@ -1,15 +1,33 @@
-const router = require('express').Router();
+const knex = require('knex')
+const knexConfig = require('../knexfile')
+const db = knex(knexConfig.development)
 
-const Users = require('./users-model.js');
-const restricted = require('../auth/restricted-middleware.js');
+module.exports = {
+    get,
+    getBy,
+    insert,
+    getById
+}
 
-//get all users
-router.get('/', restricted, (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
-});
+function get() {
+    return db('users');
+}
 
-module.exports = router;
+function getBy(filter) {
+    return db('users').where(filter);
+  }
+
+  function insert(user) {
+    return db('users')
+      .insert(user, 'id')
+      .then(ids => {
+        const [id] = ids;
+        return getById(id);
+      });
+  }
+
+function getById(id) {
+    return db('users')
+      .where({ id })
+      .first()
+}
