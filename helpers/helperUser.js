@@ -12,7 +12,9 @@ module.exports = {
 function get() {
     return db('users');
 }
-
+function bruh(){
+  fgh
+}
 function getBy(filter) {
     return db('users').where(filter);
   }
