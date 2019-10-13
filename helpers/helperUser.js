@@ -13,7 +13,7 @@ function get() {
     return db('users');
 }
 function bruh(){
-  fgh
+  return fgh
 }
 function getBy(filter) {
     return db('users').where(filter);
